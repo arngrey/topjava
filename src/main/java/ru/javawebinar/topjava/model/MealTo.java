@@ -1,12 +1,9 @@
 package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class MealTo {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-    private final int id;
+    private Integer id;
 
     private final LocalDateTime dateTime;
 
@@ -16,7 +13,7 @@ public class MealTo {
 
     private final boolean excess;
 
-    public MealTo(int id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
         this.id = id;
         this.dateTime = dateTime;
         this.description = description;
@@ -24,12 +21,12 @@ public class MealTo {
         this.excess = excess;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public int getId() {
+        return id;
     }
 
-    public String getFormattedDateTime() {
-        return formatter.format(dateTime);
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
     public String getDescription() {
@@ -42,6 +39,18 @@ public class MealTo {
 
     public boolean isExcess() {
         return excess;
+    }
+
+    public Meal toMeal() {
+        return new Meal(this.id, this.dateTime, this.description, this.calories);
+    }
+
+    public static MealTo of(Meal meal, boolean excess) {
+        return new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
+    }
+
+    public static MealTo of(Meal meal) {
+        return new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), false);
     }
 
     @Override
