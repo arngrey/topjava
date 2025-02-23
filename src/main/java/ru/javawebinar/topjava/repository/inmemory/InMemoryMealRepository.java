@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
+import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.model.Meal.BY_DATETIME_DESC;
 
+@Repository
 public class InMemoryMealRepository implements MealRepository {
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -55,7 +57,7 @@ public class InMemoryMealRepository implements MealRepository {
             }
             return mealsMap.remove(id) != null;
         } finally {
-            lock.writeLock().lock();
+            lock.writeLock().unlock();
         }
     }
 
