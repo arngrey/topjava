@@ -53,6 +53,6 @@ public class InMemoryUserRepository implements UserRepository {
         return usersMap.values().stream()
                 .filter(user -> user.getEmail() == email)
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException(String.format("User with email {} not found", email)));
+                .orElseGet(null);
     }
 }
