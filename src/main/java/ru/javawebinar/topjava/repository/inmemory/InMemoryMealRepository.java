@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
+import static ru.javawebinar.topjava.model.Meal.BY_DATETIME_DESC;
+
 public class InMemoryMealRepository implements MealRepository {
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -77,6 +79,7 @@ public class InMemoryMealRepository implements MealRepository {
         try {
             return mealsMap.values().stream()
                     .filter(meal -> meal.getUserId() == userId)
+                    .sorted(BY_DATETIME_DESC)
                     .collect(Collectors.toList());
         } finally {
             lock.readLock().unlock();

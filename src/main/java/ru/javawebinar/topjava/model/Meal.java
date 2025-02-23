@@ -2,9 +2,16 @@ package ru.javawebinar.topjava.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.LocalTime;import java.util.Comparator;
 
 public class Meal extends AbstractBaseEntity {
+    public static final Comparator<Meal> BY_DATETIME_DESC = (oneMeal, otherMeal) -> {
+        if (oneMeal.equals(otherMeal)) {
+            return 0;
+        }
+        return -oneMeal.getDateTime().compareTo(otherMeal.getDateTime());
+    };
+
     private final LocalDateTime dateTime;
 
     private final String description;
