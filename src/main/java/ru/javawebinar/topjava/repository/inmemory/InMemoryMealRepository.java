@@ -57,6 +57,8 @@ public class InMemoryMealRepository implements MealRepository {
                 return false;
             }
             return mealsMap.remove(id) != null;
+        } catch (NullPointerException e) {
+            return false;
         } finally {
             lock.writeLock().unlock();
         }
@@ -71,6 +73,8 @@ public class InMemoryMealRepository implements MealRepository {
                 return null;
             }
             return meal;
+        } catch (NullPointerException e) {
+            return null;
         } finally {
             lock.readLock().unlock();
         }
