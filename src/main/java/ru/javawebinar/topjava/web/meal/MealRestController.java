@@ -26,8 +26,13 @@ public class MealRestController {
         this.service = service;
     }
 
-    public Collection<MealWithExcessTo> getAll(MealFiltersTo mealFiltersTo) {
+    public Collection<MealWithExcessTo> getAll() {
         log.info("getAll");
+        return getAll(new MealFiltersTo());
+    }
+
+    public Collection<MealWithExcessTo> getAll(MealFiltersTo mealFiltersTo) {
+        log.info("getAll with meal filters");
         Collection<Meal> meals =  service.getAll(SecurityUtil.authUserId(), mealFiltersTo.getDateFrom(), mealFiltersTo.getDateTo());
         return MealsUtil.getFilteredTos(meals, SecurityUtil.authUserCaloriesPerDay(), mealFiltersTo.getTimeFrom(), mealFiltersTo.getTimeTo());
     }
