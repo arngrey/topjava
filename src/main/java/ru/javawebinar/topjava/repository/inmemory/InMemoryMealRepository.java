@@ -5,6 +5,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -76,11 +77,13 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll(int userId) {
+    public Collection<Meal> getAll(int userId, LocalDate dateFrom , LocalDate dateTo) {
         lock.readLock().lock();
         try {
             return mealsMap.values().stream()
                     .filter(meal -> meal.getUserId() == userId)
+                    .filter(meal -> dateFrom == null || !meal.getDate().isBefore(dateFrom))
+                    .filter(meal -> dateTo == null || !meal.getDate().isAfter(dateTo))
                     .sorted(BY_DATETIME_DESC)
                     .collect(Collectors.toList());
         } finally {

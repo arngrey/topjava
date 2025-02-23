@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.to.MealFiltersTo;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.to.MealWithExcessTo;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -25,10 +26,10 @@ public class MealRestController {
         this.service = service;
     }
 
-    public Collection<MealWithExcessTo> getAll() {
+    public Collection<MealWithExcessTo> getAll(MealFiltersTo mealFiltersTo) {
         log.info("getAll");
-        Collection<Meal> meals =  service.getAll(SecurityUtil.authUserId());
-        return MealsUtil.getTos(meals, SecurityUtil.authUserCaloriesPerDay());
+        Collection<Meal> meals =  service.getAll(SecurityUtil.authUserId(), mealFiltersTo.getDateFrom(), mealFiltersTo.getDateTo());
+        return MealsUtil.getFilteredTos(meals, SecurityUtil.authUserCaloriesPerDay(), mealFiltersTo.getTimeFrom(), mealFiltersTo.getTimeTo());
     }
 
     public MealTo get(int id) {
