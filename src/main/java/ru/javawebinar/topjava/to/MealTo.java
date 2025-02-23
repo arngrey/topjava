@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.to;
 
+import ru.javawebinar.topjava.model.Meal;
+
 import java.time.LocalDateTime;
 
 public class MealTo {
@@ -10,6 +12,10 @@ public class MealTo {
     private final String description;
 
     private final int calories;
+
+    public static MealTo of(Meal meal) {
+        return new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories());
+    }
 
     public MealTo(Integer id, LocalDateTime dateTime, String description, int calories) {
         this.id = id;
@@ -32,6 +38,10 @@ public class MealTo {
 
     public int getCalories() {
         return calories;
+    }
+
+    public Meal toMeal(int userId) {
+        return new Meal(id, dateTime, description, calories, userId);
     }
 
     @Override
