@@ -33,33 +33,33 @@ public class MealRestController {
 
     public Collection<MealWithExcessTo> getAll(MealFiltersTo mealFiltersTo) {
         log.info("getAll with meal filters");
-        Collection<Meal> meals =  service.getAll(SecurityUtil.authUserId(), mealFiltersTo.getDateFrom(), mealFiltersTo.getDateTo());
+        Collection<Meal> meals =  service.getAll(SecurityUtil.getAuthUserId(), mealFiltersTo.getDateFrom(), mealFiltersTo.getDateTo());
         return MealsUtil.getFilteredTos(meals, SecurityUtil.authUserCaloriesPerDay(), mealFiltersTo.getTimeFrom(), mealFiltersTo.getTimeTo());
     }
 
     public MealTo get(int id) {
         log.info("get {}", id);
-        Meal meal = service.get(SecurityUtil.authUserId(), id);
+        Meal meal = service.get(SecurityUtil.getAuthUserId(), id);
         return MealTo.of(meal);
     }
 
     public MealTo create(MealTo mealTo) {
         log.info("create {}", mealTo);
-        Meal creatingMeal = mealTo.toMeal(SecurityUtil.authUserId());
+        Meal creatingMeal = mealTo.toMeal(SecurityUtil.getAuthUserId());
         checkIsNew(creatingMeal);
-        Meal createdMeal = service.create(SecurityUtil.authUserId(), creatingMeal);
+        Meal createdMeal = service.create(SecurityUtil.getAuthUserId(), creatingMeal);
         return MealTo.of(createdMeal);
     }
 
     public void delete(int id) {
         log.info("delete {}", id);
-        service.delete(SecurityUtil.authUserId(), id);
+        service.delete(SecurityUtil.getAuthUserId(), id);
     }
 
     public void update(MealTo mealTo, int id) {
         log.info("update {} with id={}", mealTo, id);
-        Meal creatingMeal = mealTo.toMeal(SecurityUtil.authUserId());
+        Meal creatingMeal = mealTo.toMeal(SecurityUtil.getAuthUserId());
         assureIdConsistent(creatingMeal, id);
-        service.update(SecurityUtil.authUserId(), creatingMeal);
+        service.update(SecurityUtil.getAuthUserId(), creatingMeal);
     }
 }
