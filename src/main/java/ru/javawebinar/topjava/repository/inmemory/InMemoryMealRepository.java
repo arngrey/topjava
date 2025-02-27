@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -88,6 +89,7 @@ public class InMemoryMealRepository implements MealRepository {
                     .filter(meal -> meal.getUserId() == userId)
                     .filter(meal -> dateFrom == null || !meal.getDate().isBefore(dateFrom))
                     .filter(meal -> dateTo == null || !meal.getDate().isAfter(dateTo))
+                    .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                     .sorted(BY_DATETIME_DESC)
                     .collect(Collectors.toList());
         } finally {
