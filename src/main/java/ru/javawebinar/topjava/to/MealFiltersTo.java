@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.to;
 
+import org.springframework.lang.Nullable;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -8,10 +10,10 @@ public class MealFiltersTo {
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
 
-    private LocalDate dateFrom;
-    private LocalTime timeFrom;
-    private LocalDate dateTo;
-    private LocalTime timeTo;
+    private @Nullable LocalDate dateFrom;
+    private @Nullable LocalTime timeFrom;
+    private @Nullable LocalDate dateTo;
+    private @Nullable LocalTime timeTo;
 
     public MealFiltersTo() {
     }
@@ -58,7 +60,7 @@ public class MealFiltersTo {
                 '}';
     }
 
-    public static MealFiltersTo of(String dateFromAsString, String timeFromAsString, String dateToAsString, String timeToAsString) {
+    public static MealFiltersTo of(@Nullable String dateFromAsString, @Nullable String timeFromAsString, @Nullable String dateToAsString, @Nullable String timeToAsString) {
         MealFiltersTo result = new MealFiltersTo();
         if (dateFromAsString != null && !dateFromAsString.isEmpty()) {
             result.setDateFrom(LocalDate.parse(dateFromAsString, dateFormatter));
