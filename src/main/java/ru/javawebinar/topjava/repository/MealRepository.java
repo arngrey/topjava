@@ -17,5 +17,9 @@ public interface MealRepository {
     Meal get(int userId, int id);
 
     // ORDERED dateTime desc
-    Collection<Meal> getAll(int userId, LocalDate dateFrom , LocalDate dateTo);
+    Collection<Meal> getAll(int userId);
+
+    // ORDERED dateTime desc
+    Collection<Meal> getBetweenHalfOpen(int userId, LocalDate dateFrom , LocalDate dateTo);
+
 }

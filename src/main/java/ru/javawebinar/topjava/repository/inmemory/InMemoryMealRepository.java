@@ -1,9 +1,11 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.Util;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.model.Meal.BY_DATETIME_DESC;
@@ -82,13 +85,20 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll(int userId, LocalDate dateFrom , LocalDate dateTo) {
+    public Collection<Meal> getAll(int userId) {
+        return getAllFiltered(userId, meal -> true);
+    }
+
+    public Collection<Meal> getBetweenHalfOpen(int userId, @Nullable LocalDate dateFrom , @Nullable LocalDate dateTo) {
+        return getAllFiltered(userId, meal -> Util.isBetweenHalfOpen(meal.getDate(), dateFrom, dateTo));
+    }
+
+    private Collection<Meal> getAllFiltered(int userId, Predicate<Meal> filter) {
         lock.readLock().lock();
         try {
             return mealsMap.values().stream()
                     .filter(meal -> meal.getUserId() == userId)
-                    .filter(meal -> dateFrom == null || !meal.getDate().isBefore(dateFrom))
-                    .filter(meal -> dateTo == null || !meal.getDate().isAfter(dateTo))
+                    .filter(filter)
                     .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                     .sorted(BY_DATETIME_DESC)
                     .collect(Collectors.toList());
