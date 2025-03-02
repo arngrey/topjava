@@ -1,6 +1,7 @@
 .smarttomcat
 .idea
 out
+compose.yaml
 target
 *.iml
 log
