@@ -14,6 +14,6 @@ VALUES ('USER', 100000),
 
 INSERT INTO meals (date_time, description, calories, user_id)
 VALUES
-    ('2025-01-01 10:23:54', 'Breakfast 1', 300, 100000),
-    ('2025-01-01 11:23:54', 'Breakfast 2', 300, 100000),
-    ('2025-01-01 12:23:54', 'Breakfast 3', 300, 100000);
+    ('2025-01-01 10:23:54', 'User First Breakfast', 300, 100000),
+    ('2025-01-02 11:23:54', 'User Second Breakfast', 300, 100000),
+    ('2025-01-01 12:23:54', 'Guest Breakfast', 300, 100002);

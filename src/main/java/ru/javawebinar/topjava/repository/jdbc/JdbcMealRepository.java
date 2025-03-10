@@ -47,8 +47,7 @@ public class JdbcMealRepository implements MealRepository {
                             "SET date_time=:dateTime, " +
                             "description=:description, " +
                             "calories=:calories " +
-                            "user_id=:userId " +
-                            "WHERE id=:id", map);
+                            "WHERE id=:id AND user_id=:userId", map);
             if (updateResult == 0) {
                 return null;
             }
